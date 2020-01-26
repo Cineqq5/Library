@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openReader" prefHeight="800.0" prefWidth="1200.0" spacing="60.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controler.ReadersController">
+   <children>
+      <Pane prefHeight="800.0" prefWidth="196.0" />
+      <VBox prefHeight="800.0" prefWidth="58.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="103.0" prefWidth="179.0" />
+         </children>
+      </VBox>
+      <VBox prefHeight="400.0" prefWidth="424.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label layoutY="65.0" prefHeight="111.0" prefWidth="393.0" text="%readers.title" />
+                  <Button layoutX="358.0" layoutY="151.0" mnemonicParsing="false" onAction="#delete" text="%readers.delete" />
+               </children>
+            </Pane>
+            <TableView fx:id="readerTableView" onDragEntered="#openReader" onMouseClicked="#openReader" prefHeight="200.0" prefWidth="626.0">
+              <columns>
+                  <TableColumn fx:id="indeksColumn" onEditCommit="#openReader" onEditStart="#openReader" prefWidth="67.0" text="%readers.id" />
+                <TableColumn fx:id="nameColumn" onEditCommit="#openReader" onEditStart="#openReader" prefWidth="113.0" text="%readers.name" />
+                  <TableColumn fx:id="surnameColumn" minWidth="0.0" onEditCommit="#openReader" onEditStart="#openReader" prefWidth="243.0" text="%readers.surname" />
+              </columns>
+            </TableView>
+            <Label text="%readers.addReader" />
+            <Label />
+            <HBox prefHeight="29.0" prefWidth="444.0">
+               <children>
+                  <TextField fx:id="idField" prefHeight="25.0" prefWidth="68.0" promptText="%readers.index" />
+                  <TextField fx:id="nameField" prefHeight="25.0" prefWidth="113.0" promptText="%readers.name" />
+                  <TextField fx:id="surnameField" prefHeight="25.0" prefWidth="193.0" promptText="%readers.surname" />
+                  <Button mnemonicParsing="false" onAction="#addButton" text="%readers.add" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

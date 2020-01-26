@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" spacing="50.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controler.BooksController">
+   <children>
+      <Pane prefHeight="650.0" prefWidth="143.0" />
+      <VBox prefHeight="400.0" prefWidth="424.0">
+         <children>
+            <Label prefHeight="111.0" prefWidth="393.0" text="%books.title" />
+            <Pane prefHeight="57.0" prefWidth="424.0" />
+            <TableView fx:id="bookTableView" onMouseClicked="#moreInfo" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="titleColumn" prefWidth="215.0" text="%books.bookTitle" />
+                  <TableColumn fx:id="authorColumn" minWidth="0.0" prefWidth="155.0" text="%books.author" />
+                  <TableColumn fx:id="availableColumn" minWidth="0.0" prefWidth="51.0" text="%books.status" />
+               </columns>
+            </TableView>
+            <Pane prefHeight="71.0" prefWidth="422.0">
+               <children>
+                  <HBox layoutY="43.0" prefHeight="29.0" prefWidth="424.0">
+                     <children>
+                        <TextField fx:id="titleField" prefHeight="25.0" prefWidth="191.0" promptText="%books.bookTitle" />
+                        <TextField fx:id="authorField" prefHeight="25.0" prefWidth="144.0" promptText="%books.author" />
+                        <TextField fx:id="amountField" prefHeight="25.0" prefWidth="41.0" promptText="%books.amount" />
+                        <Button mnemonicParsing="false" onAction="#addButton" text="%book.add" />
+                     </children>
+                  </HBox>
+                  <Label layoutY="27.0" text="%books.addBook" />
+               </children></Pane>
+            <TextField fx:id="statusLabel" promptText="dostepne" text="dostepne" visible="false" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets left="150.0" right="150.0" top="150.0" />
+   </padding>
+</HBox>
