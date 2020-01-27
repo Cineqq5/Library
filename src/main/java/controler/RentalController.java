@@ -1,13 +1,17 @@
 package controler;
 
 import ModelFx.*;
+
 import java.time.format.DateTimeFormatter;
+
 import javafx.util.StringConverter;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+
 import java.time.LocalDate;
+
 import static Projekt.Main.rentalService;
 
 public class RentalController {
@@ -48,8 +52,8 @@ public class RentalController {
 
             @Override
             public String toString(LocalDate t) {
-                if (t==null) {
-                    return "" ;
+                if (t == null) {
+                    return "";
                 } else {
                     return dateFormat.format(t);
                 }
@@ -60,7 +64,7 @@ public class RentalController {
                 try {
                     return LocalDate.parse(string, dateFormat);
                 } catch (Exception exc) {
-                    return null ;
+                    return null;
                 }
             }
 
@@ -70,22 +74,24 @@ public class RentalController {
     }
 
     public void searchClient() {
-                sortedData = new SortedList<>(rentalService.getOrderRentalList());
+        sortedData = new SortedList<>(rentalService.getOrderRentalList());
         sortedData.comparatorProperty().bind(rentalTableView.comparatorProperty());
         rentalTableView.setItems(sortedData);
     }
 
 
-    public void dateChange(TableColumn.CellEditEvent<RentalFx, LocalDate> rentalFxStringCellEditEvent){
+    public void dateChange(TableColumn.CellEditEvent<RentalFx, LocalDate> rentalFxStringCellEditEvent) {
         try {
             int i = rentalTableView.getSelectionModel().getSelectedIndex();
             RentalFx rent = sortedData.get(i);
             System.out.println(rentalFxStringCellEditEvent.getNewValue());
+            if (rentalFxStringCellEditEvent.getNewValue() == null) {
+                throw new Exception();
+            }
             rent.setAddedDate(rentalFxStringCellEditEvent.getNewValue());
             rentalService.setRentalFxObjectPropertyEdit(rent);
             new Thread(() -> rentalService.update()).start();
-        }
-        catch (Exception e ){
+        } catch (Exception e) {
             System.out.println("Nie udało się zmienic daty");
         }
     }

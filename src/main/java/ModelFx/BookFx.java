@@ -35,29 +35,41 @@ public class BookFx {
     }
 
 
+    public int getId() {
+        return id.get();
+    }
 
+    public IntegerProperty idProperty() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id.set(id);
+    }
 
+    public String getTitle() {
+        return title.get();
+    }
 
+    public StringProperty titleProperty() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
 
-    public int getId() {        return id.get();    }
+    public String getAuthor() {
+        return author.get();
+    }
 
-    public IntegerProperty idProperty() {        return id;    }
+    public StringProperty authorProperty() {
+        return author;
+    }
 
-    public void setId(int id) {this.id.set(id);    }
-
-    public String getTitle() {        return title.get();    }
-
-    public StringProperty titleProperty() {        return title;    }
-
-    public void setTitle(String title) {        this.title.set(title);    }
-
-    public String getAuthor() {        return author.get();    }
-
-    public StringProperty authorProperty() {        return author;    }
-
-    public void setAuthor(String author) {        this.author.set(author);    }
+    public void setAuthor(String author) {
+        this.author.set(author);
+    }
 
     public String getStatus() {
         return status.get();
@@ -77,7 +89,6 @@ public class BookFx {
     private BooleanProperty validAvailableProperty = new SimpleBooleanProperty();
 
 
-
     public BookFx() {
         validTitleProperty.bind(title.isNotEmpty());
         validAuthorProperty.bind(author.isNotEmpty());
@@ -88,13 +99,12 @@ public class BookFx {
     }
 
 
-
     @Override
-    public String toString(){
-        return "Ksiazka: "+
-                ", Id: "+ id.get() +
-                ", Tytul: "+ title.get() +
-                ", Autor: "+ author.get();
+    public String toString() {
+        return "Ksiazka: " +
+                ", Id: " + id.get() +
+                ", Tytul: " + title.get() +
+                ", Autor: " + author.get();
     }
 
 }

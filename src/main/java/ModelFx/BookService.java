@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 import utils.converters.ConverterBook;
 
 import java.util.List;
+
 public class BookService extends Thread {
     private BookDao bookDao;
-
 
 
     private ObjectProperty<BookFx> bookFxObjectProperty = new SimpleObjectProperty<>(new BookFx());
@@ -21,34 +21,34 @@ public class BookService extends Thread {
     public ObservableList<BookFx> getBookFxObservableListDist() {
         return bookFxObservableListDist;
     }
-    public void createObservableListDist(){
+
+    public void createObservableListDist() {
         this.bookFxObservableListDist.clear();
         BookFx bokz;
-        int i=0;
-        for (BookFx bok: bookFxObservableList) {
-            i=0;
-            if(bookFxObservableListDist.size()>0) {
+        int i = 0;
+        for (BookFx bok : bookFxObservableList) {
+            i = 0;
+            if (bookFxObservableListDist.size() > 0) {
                 for (BookFx bookFx : bookFxObservableListDist) {
                     bokz = bookFx;
                     if (bokz.getTitle().equals(bok.getTitle())) {
-                        if(i==0) {
+                        if (i == 0) {
                             if (bok.getStatus().equals("dostepne")) {
-                                bookFx.setAvailable(""+(Integer.parseInt(bookFx.getAvailable()) + 1));
+                                bookFx.setAvailable("" + (Integer.parseInt(bookFx.getAvailable()) + 1));
                             }
-                            bookFx.setAll(""+(Integer.parseInt(bookFx.getAll()) + 1));
+                            bookFx.setAll("" + (Integer.parseInt(bookFx.getAll()) + 1));
 
                         }
                         i = 1;
                     }
                 }
             }
-            if(i==0){
-                int id=this.bookFxObservableListDist.size();
+            if (i == 0) {
+                int id = this.bookFxObservableListDist.size();
                 this.bookFxObservableListDist.add(bok);
-                if(bok.getStatus().equals("dostepne")){
+                if (bok.getStatus().equals("dostepne")) {
                     this.bookFxObservableListDist.get(id).setAvailable("1");
-                }
-                else{
+                } else {
                     this.bookFxObservableListDist.get(id).setAvailable("0");
                 }
                 this.bookFxObservableListDist.get(id).setAll("1");
@@ -57,12 +57,15 @@ public class BookService extends Thread {
     }
 
     private ObservableList<BookFx> bookFxObservableListDist = FXCollections.observableArrayList();
-    public BookService() { bookDao= new BookDao();}
 
-    public void init()  {
+    public BookService() {
+        bookDao = new BookDao();
+    }
+
+    public void init() {
         List<Book> books = getBooks();
         this.bookFxObservableList.clear();
-        books.forEach(e->
+        books.forEach(e ->
         {
             BookFx bookFx = ConverterBook.convertToBookFx(e);
             this.bookFxObservableList.add(bookFx);
@@ -84,6 +87,7 @@ public class BookService extends Thread {
         bookDao = new BookDao();
         return this.findAll();
     }
+
     public void delete(Integer id) {
         bookDao.openCurrentSessionwithTransaction();
         Book book = bookDao.findById(id);
@@ -94,13 +98,12 @@ public class BookService extends Thread {
     }
 
     public void update() {
-        Book entity=ConverterBook.convertToBook(this.getBookFxObjectPropertyEdit());
+        Book entity = ConverterBook.convertToBook(this.getBookFxObjectPropertyEdit());
         bookDao.openCurrentSessionwithTransaction();
         bookDao.update(entity);
         bookDao.closeCurrentSessionwithTransaction();
         this.init();
     }
-
 
 
     public BookDao getBookDao() {

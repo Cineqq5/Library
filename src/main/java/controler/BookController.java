@@ -25,12 +25,10 @@ public class BookController {
     public Label authorLabel;
 
 
-
-
     @FXML
     private TableColumn<BookFx, String> titleColumn;
     @FXML
-    private TableColumn<BookFx, String>  authorColumn;
+    private TableColumn<BookFx, String> authorColumn;
     @FXML
     private TableColumn<BookFx, String> statusColumn;
 
@@ -39,12 +37,13 @@ public class BookController {
 
 
     @FXML
-    private TableView<BookFx> bookTableView ;
+    private TableView<BookFx> bookTableView;
 
 
-    private int id=0;
+    private int id = 0;
     private String title;
     private String author;
+
     public BookService getBookService() {
         return bookService;
     }
@@ -52,9 +51,8 @@ public class BookController {
     Scene scene;
 
 
-
     @FXML
-    public void initialize(){
+    public void initialize() {
 
         this.bookTableView.setItems(bookService.getBookFxObservableList());
 
@@ -76,19 +74,18 @@ public class BookController {
         });
 
 
-
     }
 
     public void searchBook() {
         this.titleLabel.setText(this.title);
         this.authorLabel.setText(this.author);
-        FilteredList<BookFx> filteredData = new FilteredList<>(bookService.getBookFxObservableList(), b->b.getTitle().equals(title) && b.getAuthor().equals(author));
+        FilteredList<BookFx> filteredData = new FilteredList<>(bookService.getBookFxObservableList(), b -> b.getTitle().equals(title) && b.getAuthor().equals(author));
 
 
         sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(bookTableView.comparatorProperty());
         bookTableView.setItems(sortedData);
-        if(sortedData.size()==0){
+        if (sortedData.size() == 0) {
             Stage stage = (Stage) scene.getWindow();
             stage.close();
 
@@ -96,65 +93,59 @@ public class BookController {
     }
 
 
-
-
-
-
-
-
-
     public void setBookTitle(String title) {
-        this.title=title;
-    }
-    public void setBookAuthor(String author) {
-        this.author=author;
-    }
-    public void setBookId(int id) {
-        this.id=id;
+        this.title = title;
     }
 
+    public void setBookAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setBookId(int id) {
+        this.id = id;
+    }
 
 
     public void delete() {
         BookFx re = new BookFx();
         int i = bookTableView.getSelectionModel().getSelectedIndex();
-        i=searchToDelete(i,title,author);
+        i = searchToDelete(i, title, author);
         System.out.println(i);
         bookService.delete(i);
-        System.out.println("wielkosc "+sortedData.size());
+        System.out.println("wielkosc " + sortedData.size());
 
 
         reopen();
 
     }
-    public void reopen(){
+
+    public void reopen() {
         initialize();
         searchBook();
     }
 
     private int searchToDelete(int i, String title, String author) {
-        int j=0;
-        for (BookFx bok:sortedData) {
-            if(bok.getTitle().equals(title) && bok.getAuthor().equals(author)){
-                if(j==i){
+        int j = 0;
+        for (BookFx bok : sortedData) {
+            if (bok.getTitle().equals(title) && bok.getAuthor().equals(author)) {
+                if (j == i) {
                     System.out.println("znaleziono id: " + bok.getId());
-
                     return bok.getId();
                 }
                 j++;
             }
         }
-
-
         return 0;
     }
 
 
-    public void setScene(Scene scene) {this.scene=scene;}
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 
     public void titleEditCommit(TableColumn.CellEditEvent<BookFx, String> bookFxStringCellEditEvent) {
         int i = bookTableView.getSelectionModel().getSelectedIndex();
-        BookFx rek=sortedData.get(i);
+        BookFx rek = sortedData.get(i);
         rek.setTitle(bookFxStringCellEditEvent.getNewValue());
         bookService.setBookFxObjectPropertyEdit(rek);
         new Thread(() -> bookService.update()).start();
@@ -163,7 +154,7 @@ public class BookController {
 
     public void authorEditCommit(TableColumn.CellEditEvent<BookFx, String> bookFxStringCellEditEvent) {
         int i = bookTableView.getSelectionModel().getSelectedIndex();
-        BookFx rek=sortedData.get(i);
+        BookFx rek = sortedData.get(i);
         rek.setAuthor(bookFxStringCellEditEvent.getNewValue());
         bookService.setBookFxObjectPropertyEdit(rek);
         new Thread(() -> bookService.update()).start();
@@ -172,50 +163,45 @@ public class BookController {
 
     public void statusEditCommit(TableColumn.CellEditEvent<BookFx, String> bookFxStringCellEditEvent) {
         int i = bookTableView.getSelectionModel().getSelectedIndex();
-        BookFx rek=sortedData.get(i);
+        BookFx rek = sortedData.get(i);
         if (bookFxStringCellEditEvent.getNewValue().equals("dostepne")) {
             rek.setStatus(bookFxStringCellEditEvent.getNewValue());
             bookService.setBookFxObjectPropertyEdit(rek);
             new Thread(() -> bookService.update()).start();
-
-
         }
-
-
-
         reopen();
     }
 
     public void idReaderEdit(TableColumn.CellEditEvent cellEditEvent) {
         System.out.println(cellEditEvent.getNewValue());
         int i = bookTableView.getSelectionModel().getSelectedIndex();
-        BookFx rek=sortedData.get(i);
-        System.out.println(rek.getId());
-        if(rek.getStatus().equals("dostepne")){
-            try{
-                int idek=readerService.getIdByIndex(""+cellEditEvent.getNewValue());
-                ReaderFx readerFx =ConverterReader.convertToReaderFx( readerService.findById(idek));
+        BookFx rek = sortedData.get(i);
+        if (rek.getStatus().equals("dostepne")) {
+            try {
+                int idek = readerService.getIdByIndex("" + cellEditEvent.getNewValue());
+                ReaderFx readerFx = ConverterReader.convertToReaderFx(readerService.findById(idek));
                 rek.setStatus("wypozyczone");
-                RentalFx rent = new RentalFx();
-                rent.setAddedDate(LocalDate.now());
-                rent.setBookFx(rek);
-                rent.setReaderFx(readerFx);
-                rentalService.setRentalFxObjectProperty(rent);
                 bookService.setBookFxObjectPropertyEdit(rek);
-                new Thread(() -> bookService.update()).start();
-                new Thread(() ->  rentalService.persist()).start();
-
-
+                bookService.update();
+                addRental(rek, readerFx);
                 reopen();
+            } catch (Exception e) {
+                System.out.println("nie udalo sie");
             }
-            catch(Exception e){
-                System.out.println("nie pyklo");
-            }
-        }
-        else{
+        } else {
             System.out.println("ksiazka niedostepna");
         }
 
+
+    }
+
+    public void addRental(BookFx rek, ReaderFx readerFx) {
+        RentalFx rent = new RentalFx();
+        rent.setAddedDate(LocalDate.now());
+        rent.setBookFx(rek);
+        rent.setReaderFx(readerFx);
+        rentalService.setRentalFxObjectProperty(rent);
+        new Thread(() -> rentalService.persist()).start();
 
     }
 

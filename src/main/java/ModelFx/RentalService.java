@@ -10,7 +10,7 @@ import utils.converters.ConverterRental;
 
 import java.util.List;
 
-public class RentalService extends Thread{
+public class RentalService extends Thread {
     private RentalDao rentalDao;
 
 
@@ -41,15 +41,15 @@ public class RentalService extends Thread{
         this.rentalFxObjectProperty.set(rentalFxObjectProperty);
     }
 
-    public RentalService(){
-        rentalDao= new RentalDao();
+    public RentalService() {
+        rentalDao = new RentalDao();
     }
 
     public void init() {
 
         List<Rental> rentals = getItems();
         this.orderRentalList.clear();
-        rentals.forEach(e->{
+        rentals.forEach(e -> {
             RentalFx rentalFx = ConverterRental.convertToRentalFx(e);
             this.orderRentalList.add(rentalFx);
         });
@@ -84,12 +84,13 @@ public class RentalService extends Thread{
     }
 
     public void update() {
-        Rental reader=ConverterRental.convertToRental(this.getRentalFxObjectPropertyEdit());
+        Rental reader = ConverterRental.convertToRental(this.getRentalFxObjectPropertyEdit());
         rentalDao.openCurrentSessionwithTransaction();
         rentalDao.update(reader);
         rentalDao.closeCurrentSessionwithTransaction();
         this.init();
     }
+
     public RentalDao getRentalDao() {
         return rentalDao;
     }
@@ -123,7 +124,7 @@ public class RentalService extends Thread{
     }
 
     public ObservableList<RentalFx> getOrderRentalListSpec(String indeks) {
-        return orderRentalList.filtered(b->b.getReaderFx().getIndeks().equals(indeks));
+        return orderRentalList.filtered(b -> b.getReaderFx().getIndeks().equals(indeks));
     }
 
 

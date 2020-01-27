@@ -41,7 +41,9 @@ public class ReaderFx {
         return name;
     }
 
-    public void setName(String name) {    this.name.set(name);   }
+    public void setName(String name) {
+        this.name.set(name);
+    }
 
     public String getSurname() {
         return surname.get();
@@ -56,13 +58,17 @@ public class ReaderFx {
     }
 
 
+    public String getIndeks() {
+        return indeks.get();
+    }
 
-    public String getIndeks() {return indeks.get(); }
+    public StringProperty indeksProperty() {
+        return indeks;
+    }
 
-    public StringProperty indeksProperty() {   return indeks;   }
-
-    public void setIndeks(String indeks) {    this.indeks.set(indeks);   }
-
+    public void setIndeks(String indeks) {
+        this.indeks.set(indeks);
+    }
 
 
     @Override

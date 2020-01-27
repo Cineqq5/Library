@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -29,7 +30,7 @@ import static Projekt.Main.rentalService;
 public class BooksController {
 
     MainController mainController;
-    int id=0;
+    int id = 0;
     @FXML
     private TextField titleField;
     @FXML
@@ -42,13 +43,11 @@ public class BooksController {
     @FXML
     private TableColumn<BookFx, String> titleColumn;
     @FXML
-    private TableColumn<BookFx, String>  authorColumn;
+    private TableColumn<BookFx, String> authorColumn;
     @FXML
     private TableColumn<BookFx, String> availableColumn;
     @FXML
-    private TableView<BookFx> bookTableView ;
-
-
+    private TableView<BookFx> bookTableView;
 
 
     @FXML
@@ -77,7 +76,7 @@ public class BooksController {
 
     public void searchBook() {
 
-        FilteredList<BookFx> filteredData = new FilteredList<>(bookService.getBookFxObservableListDist(), b->true);
+        FilteredList<BookFx> filteredData = new FilteredList<>(bookService.getBookFxObservableListDist(), b -> true);
 
 
         sortedData = new SortedList<>(filteredData);
@@ -94,7 +93,7 @@ public class BooksController {
     public void addButton() {
         String am = amountField.getText();
         int amm = Integer.parseInt(am);
-        for(int i=0;i<amm;i++) {
+        for (int i = 0; i < amm; i++) {
 
             bookService.bookFxObjectPropertyProperty().get().titleProperty().bind(this.titleField.textProperty());
             bookService.bookFxObjectPropertyProperty().get().authorProperty().bind(this.authorField.textProperty());
@@ -108,12 +107,11 @@ public class BooksController {
 
     public void moreInfo() {
 
-        if(id==bookService.getBookFxObservableList().get(bookTableView.getSelectionModel().getSelectedIndex()).getId()){
+        if (id == bookService.getBookFxObservableList().get(bookTableView.getSelectionModel().getSelectedIndex()).getId()) {
 
             open(id);
-            System.out.println("open "+id);
-        }
-        else {
+            System.out.println("open " + id);
+        } else {
             id = bookService.getBookFxObservableList().get(bookTableView.getSelectionModel().getSelectedIndex()).getId();
         }
 
@@ -127,7 +125,7 @@ public class BooksController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BookFx rek=sortedData.get(bookTableView.getSelectionModel().getSelectedIndex());
+        BookFx rek = sortedData.get(bookTableView.getSelectionModel().getSelectedIndex());
         BookController controller = loader.getController();
 
         controller.setBookTitle(rek.getTitle());

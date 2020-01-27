@@ -11,18 +11,17 @@ import java.io.IOException;
 
 public class MainController {
 
-    static String path="";
     @FXML
     private StackPane mainStackPane;
     @FXML
     private BorderPane borderPane;
+
     @FXML
     private TopMenuButtonsController topMenuButtonsController;
 
 
-
     @FXML
-    public void initialize(){
+    public void initialize() {
 
         topMenuButtonsController.setMainController(this);
     }
@@ -39,12 +38,6 @@ public class MainController {
 
     public void setMainController(TopMenuButtonsController topMenuButtonsController) {
     }
-
-
-
-
-
-
 
 
 }

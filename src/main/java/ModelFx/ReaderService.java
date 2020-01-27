@@ -1,14 +1,17 @@
 package ModelFx;
+
 import database.dao.ReaderDao;
 import database.models.Reader;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.util.List;
+
 import utils.converters.ConverterReader;
 
-public class ReaderService extends Thread{
+public class ReaderService extends Thread {
 
 
     private static ReaderDao readerDao;
@@ -58,14 +61,14 @@ public class ReaderService extends Thread{
     }
 
 
-    public ReaderService(){
-        readerDao=new ReaderDao();
+    public ReaderService() {
+        readerDao = new ReaderDao();
     }
 
-    public void init()  {
+    public void init() {
         List<Reader> readers = getClients();
         this.readerFxObservableList.clear();
-        readers.forEach(e->
+        readers.forEach(e ->
         {
             ReaderFx readerFx = ConverterReader.convertToReaderFx(e);
             this.readerFxObservableList.add(readerFx);
@@ -87,7 +90,7 @@ public class ReaderService extends Thread{
     }
 
     public void update() {
-        Reader reader=ConverterReader.convertToReader(this.getReaderFxObjectPropertyEdit());
+        Reader reader = ConverterReader.convertToReader(this.getReaderFxObjectPropertyEdit());
         readerDao.openCurrentSessionwithTransaction();
         readerDao.update(reader);
         readerDao.closeCurrentSessionwithTransaction();
@@ -116,12 +119,12 @@ public class ReaderService extends Thread{
         return readers;
     }
 
-    public int getIdByIndex(String index){
-        int id=-1;
-        List<Reader> readers=findAll();
-        for (Reader reader:readers) {
-            if(reader.getIndeks().equals(index)){
-                id=reader.getId();
+    public int getIdByIndex(String index) {
+        int id = -1;
+        List<Reader> readers = findAll();
+        for (Reader reader : readers) {
+            if (reader.getIndeks().equals(index)) {
+                id = reader.getId();
             }
         }
         return id;

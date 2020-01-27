@@ -23,7 +23,8 @@ public class Main extends Application {
 
     private static Thread thread, thread1;
     private static volatile boolean isLoading = true;
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         thread = new Thread(Main::loading);
         launch(args);
     }
@@ -37,7 +38,7 @@ public class Main extends Application {
         primaryStage.show();
 
         thread.start();
-        thread1 = new Thread(()->
+        thread1 = new Thread(() ->
         {
             changeGUI(primaryStage);
         });
@@ -50,9 +51,9 @@ public class Main extends Application {
 */
 
 
-        readerService=new ReaderService();
-        bookService=new BookService();
-        rentalService=new RentalService();
+        readerService = new ReaderService();
+        bookService = new BookService();
+        rentalService = new RentalService();
         readerService.start();
         bookService.start();
         rentalService.start();
@@ -67,8 +68,7 @@ public class Main extends Application {
     }
 
 
-    private void changeGUI(Stage primaryStage)
-    {
+    private void changeGUI(Stage primaryStage) {
         Platform.runLater(() -> {
             primaryStage.hide();
             Pane borderPane = FxmlUtils.fxmlLoader(BORDER_PANE_MAIN_FXML);

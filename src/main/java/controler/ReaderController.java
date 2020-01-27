@@ -39,7 +39,6 @@ public class ReaderController {
     private TableColumn<RentalFx, LocalDate> dateColumn;
 
 
-
     @FXML // fx:id="nameTextField"
     private TextField nameTextField;
 
@@ -53,7 +52,8 @@ public class ReaderController {
     private Button saveButton;
 
 
-    private int id=0;
+    private int id = 0;
+
     public ReaderService getReaderService() {
         return readerService;
 
@@ -63,7 +63,7 @@ public class ReaderController {
     private ReaderFx readerFx;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
 
 
         this.rentalTableView.setItems(rentalService.getOrderRentalList());
@@ -79,7 +79,7 @@ public class ReaderController {
     }
 
     public void searchClient() {
-        FilteredList<RentalFx> filteredData = new FilteredList<>(rentalService.getOrderRentalList(), b-> b.getReaderFx().getIndeks().equals(indeksLabel.getText()));
+        FilteredList<RentalFx> filteredData = new FilteredList<>(rentalService.getOrderRentalList(), b -> b.getReaderFx().getIndeks().equals(indeksLabel.getText()));
 
         SortedList sortedData = new SortedList<>(rentalService.getOrderRentalList());
         sortedData.comparatorProperty().bind(rentalTableView.comparatorProperty());
@@ -87,7 +87,7 @@ public class ReaderController {
 
     }
 
-    public void filtr(String filtr){
+    public void filtr(String filtr) {
 
         this.rentalTableView.setItems(rentalService.getOrderRentalListSpec(filtr));
     }
@@ -122,7 +122,7 @@ public class ReaderController {
         showFields();
     }
 
-    public void showFields(){
+    public void showFields() {
         nameTextField.setVisible(true);
         surnameTextField.setVisible(true);
         indeksTextField.setVisible(true);
@@ -130,49 +130,38 @@ public class ReaderController {
     }
 
 
-
     @FXML
     void save() {
-       // System.out.println(nameTextField.getCharacters());
-        //System.out.println(surnameTextField.getCharacters());
-       // System.out.println(indeksTextField.getCharacters());
-
         nameLabel.setText(nameTextField.getText());
         surnameLabel.setText(surnameTextField.getText());
-        if(readerService.getIdByIndex(indeksTextField.getText())==-1){
+        if (readerService.getIdByIndex(indeksTextField.getText()) == -1) {
             indeksLabel.setText(indeksTextField.getText());
-        }
-        else{
+        } else {
             indeksTextField.setText(indeksLabel.getText());
         }
-
-
-
-            nameTextField.setVisible(false);
-            surnameTextField.setVisible(false);
-            indeksTextField.setVisible(false);
-            saveButton.setVisible(false);
-
+        nameTextField.setVisible(false);
+        surnameTextField.setVisible(false);
+        indeksTextField.setVisible(false);
+        saveButton.setVisible(false);
     }
 
     public void setReaderId(int id) {
-        this.id=id;
+        this.id = id;
     }
 
     public void setReaderFx(ReaderFx rek) {
-        this.readerFx=rek;
+        this.readerFx = rek;
 
     }
 
 
-
     public void changeStatus(TableColumn.CellEditEvent<RentalFx, String> rentalFxStringCellEditEvent) {
-       if(rentalFxStringCellEditEvent.getOldValue().equals("wypozyczone")) {
+        if (rentalFxStringCellEditEvent.getOldValue().equals("wypozyczone")) {
             if (rentalFxStringCellEditEvent.getNewValue().equals("dostepne") || rentalFxStringCellEditEvent.getNewValue().equals("")) {
 
                 RentalFx rentalFx = rentalService.getRentalFxObjectPropertyEdit();
                 rentalService.delete(rentalFx.getId());
-                new Thread(() ->  updateBook(rentalFx.getBookFx())).start();
+                new Thread(() -> updateBook(rentalFx.getBookFx())).start();
                 this.initialize();
 
             }
@@ -180,8 +169,6 @@ public class ReaderController {
     }
 
     private void updateBook(BookFx bookFx) {
-        BookService bookService = new BookService();
-        bookService.init();
         bookFx.setStatus("dostepne");
         bookService.setBookFxObjectPropertyEdit(bookFx);
         new Thread(() -> bookService.update()).start();

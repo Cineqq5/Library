@@ -13,17 +13,17 @@ public class TopMenuButtonsController {
 
 
     @FXML
-    public void initialize(){
+    public void initialize() {
     }
 
     @FXML
-    public void books(){
+    public void books() {
         mainController.setLocation(BOOKS_FXML);
     }
 
     @FXML
-    public void readers(){
-       mainController.setLocation(READERS_FXML);
+    public void readers() {
+        mainController.setLocation(READERS_FXML);
     }
 
 

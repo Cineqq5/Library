@@ -35,17 +35,16 @@ public class ReadersController {
     TextField surnameField;
 
     @FXML
-    private TableColumn<ReaderFx, String>  nameColumn;
+    private TableColumn<ReaderFx, String> nameColumn;
     @FXML
-    private TableColumn<ReaderFx, String>  surnameColumn;
+    private TableColumn<ReaderFx, String> surnameColumn;
     @FXML
-    private TableColumn<ReaderFx, String>  indeksColumn;
+    private TableColumn<ReaderFx, String> indeksColumn;
 
     @FXML
-    private TableView<ReaderFx> readerTableView ;
+    private TableView<ReaderFx> readerTableView;
     private static Thread thread2;
-    int id=0;
-
+    int id = 0;
 
 
     private TextField filterField;
@@ -69,17 +68,14 @@ public class ReadersController {
     }
 
 
-
     public void searchClient() {
-        FilteredList<ReaderFx> filteredData = new FilteredList<>(readerService.getReaderFxObservableList(), b->true);
+        FilteredList<ReaderFx> filteredData = new FilteredList<>(readerService.getReaderFxObservableList(), b -> true);
 
 
         sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(readerTableView.comparatorProperty());
         readerTableView.setItems(sortedData);
     }
-
-
 
 
     public void setMainController(MainController mainController) {
@@ -115,7 +111,7 @@ public class ReadersController {
 
     public void openReader() {
         System.out.println(readerTableView.getSelectionModel().getSelectedIndex());
-        if(readerTableView.getSelectionModel().getSelectedIndex()!=-1) {
+        if (readerTableView.getSelectionModel().getSelectedIndex() != -1) {
             if (id == readerService.getReaderFxObservableList().get(readerTableView.getSelectionModel().getSelectedIndex()).getId()) {
 
                 open(id);
@@ -123,19 +119,16 @@ public class ReadersController {
             } else {
                 id = readerService.getReaderFxObservableList().get(readerTableView.getSelectionModel().getSelectedIndex()).getId();
             }
+        } else {
+            id = -1;
+            //readerTableView.set;
+            // readerTableView.setSelectionModel(0);
         }
-        else{
-          id=-1;
-          //readerTableView.set;
-           // readerTableView.setSelectionModel(0);
-        }
-
-
-
 
 
     }
-    public void open(int id){
+
+    public void open(int id) {
         ReaderFx re = new ReaderFx();
 
         FXMLLoader loader = FxmlUtils.getLoader("/fxml/Czytelnik.fxml");
@@ -145,7 +138,7 @@ public class ReadersController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ReaderFx rek=sortedData.get(readerTableView.getSelectionModel().getSelectedIndex());
+        ReaderFx rek = sortedData.get(readerTableView.getSelectionModel().getSelectedIndex());
         ReaderController controller = loader.getController();
         controller.getReaderService().setReaderFxObjectProperty(rek);
         controller.filtr(rek.getIndeks());
